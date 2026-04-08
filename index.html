@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScrapSmart — Waste to Worth</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --dark: #0D1F1A;
+            --teal: #028090;
+            --green: #1D9E75;
+            --mint: #A8DACC;
+            --amber: #F4A300;
+            --cream: #F2F7F5;
+            --white: #FFFFFF;
+            --card: #FFFFFF;
+            --text: #0D1F1A;
+            --muted: #5A7A72;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* NAV */
+        nav {
+            background: var(--dark);
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-logo span {
+            color: var(--green);
+        }
+
+        .nav-pts {
+            background: var(--teal);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        /* PAGES */
+        .page {
+            display: none;
+            padding: 1.2rem;
+            max-width: 480px;
+            margin: 0 auto;
+            animation: fadeUp 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* HERO */
+        .hero {
+            background: var(--dark);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            margin-bottom: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '♻';
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            font-size: 7rem;
+            opacity: 0.06;
+            line-height: 1;
+        }
+
+        .hero-tag {
+            background: var(--green);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.15;
+            margin-bottom: 8px;
+        }
+
+        .hero h1 span {
+            color: var(--amber);
+        }
+
+        .hero p {
+            color: var(--mint);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            margin-bottom: 1.4rem;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .hstat {
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            padding: 10px 8px;
+            text-align: center;
+        }
+
+        .hstat-num {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--amber);
+        }
+
+        .hstat-lbl {
+            font-size: 0.68rem;
+            color: var(--mint);
+            margin-top: 2px;
+        }
+
+        /* CARDS */
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1.1rem 1.2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 12px rgba(13, 31, 26, 0.07);
+        }
+
+        .card-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* SCRAP SUBMIT FORM */
+        .scrap-types {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .stype {
+            border: 2px solid #E5EDE9;
+            border-radius: 12px;
+            padding: 12px 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .stype:hover {
+            border-color: var(--teal);
+        }
+
+        .stype.selected {
+            border-color: var(--green);
+            background: #EAF7F2;
+        }
+
+        .stype-icon {
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+        }
+
+        .stype-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .stype-rate {
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+
+        .weight-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .weight-row label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            min-width: 80px;
+        }
+
+        .weight-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 2px solid #E5EDE9;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+        }
+
+        .weight-input:focus {
+            border-color: var(--teal);
+        }
+
+        .points-preview {
+            background: linear-gradient(135deg, var(--dark), #1A3530);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .pp-label {
+            font-size: 0.82rem;
+            color: var(--mint);
+        }
+
+        .pp-points {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--amber);
+        }
+
+        .pp-sub {
+            font-size: 0.72rem;
+            color: var(--mint);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #169060;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--green);
+            color: var(--green);
+            margin-top: 8px;
+        }
+
+        /* SUCCESS */
+        .success-anim {
+            text-align: center;
+            padding: 1.5rem 1rem;
+        }
+
+        .success-circle {
+            width: 80px;
+            height: 80px;
+            background: var(--green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 1rem;
+            animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pop {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-anim h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .success-anim p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .earned-badge {
+            background: var(--amber);
+            color: var(--dark);
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 30px;
+            margin: 1rem 0;
+        }
+
+        /* LEADERBOARD */
+        .lb-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #EDF2EF;
+        }
+
+        .lb-row:last-child {
+            border-bottom: none;
+        }
+
+        .lb-rank {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            width: 24px;
+            color: var(--muted);
+        }
+
+        .lb-rank.gold {
+            color: #F4A300;
+        }
+
+        .lb-rank.silver {
+            color: #9AA5B1;
+        }
+
+        .lb-rank.bronze {
+            color: #C07F3A;
+        }
+
+        .lb-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .lb-info {
+            flex: 1;
+        }
+
+        .lb-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .lb-kg {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .lb-pts {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--green);
+        }
+
+        /* REDEEM */
+        .reward-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .reward-card {
+            border: 2px solid #E5EDE9;
+            border-radius: 14px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .reward-card:hover {
+            border-color: var(--amber);
+            transform: translateY(-2px);
+        }
+
+        .reward-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .reward-icon {
+            font-size: 1.8rem;
+            margin-bottom: 6px;
+        }
+
+        .reward-name {
+            font-size: 0.82rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .reward-pts {
+            background: #FFF3D0;
+            color: #8B5C00;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        /* HISTORY */
+        .hist-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #EDF2EF;
+        }
+
+        .hist-row:last-child {
+            border-bottom: none;
+        }
+
+        .hist-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hist-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            flex-shrink: 0;
+        }
+
+        .hist-dot.red {
+            background: #E24B4A;
+        }
+
+        .hist-info .hist-title {
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        .hist-info .hist-date {
+            font-size: 0.72rem;
+            color: var(--muted);
+        }
+
+        .hist-pts {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .hist-pts.earn {
+            color: var(--green);
+        }
+
+        .hist-pts.spend {
+            color: #E24B4A;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 12px;
+            z-index: 100;
+            max-width: 480px;
+            margin: 0 auto;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .bnav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+            padding: 4px 16px;
+            border-radius: 10px;
+            transition: all 0.2s;
+        }
+
+        .bnav-item.active .bnav-icon {
+            color: var(--green);
+        }
+
+        .bnav-item.active .bnav-label {
+            color: var(--green);
+        }
+
+        .bnav-icon {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.45);
+            transition: color 0.2s;
+        }
+
+        .bnav-label {
+            font-size: 0.62rem;
+            color: rgba(255, 255, 255, 0.45);
+            font-weight: 500;
+            transition: color 0.2s;
+            letter-spacing: 0.03em;
+        }
+
+        .pb {
+            padding-bottom: 72px;
+        }
+
+        .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .tag-green {
+            background: #EAF7F2;
+            color: #0F6E56;
+        }
+
+        .tag-amber {
+            background: #FFF3D0;
+            color: #8B5C00;
+        }
+
+        .toast {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 999;
+            display: none;
+            animation: fadeUp 0.3s ease;
+            white-space: nowrap;
+        }
+
+        #page-login.active {
+            display: flex;
+        }
+
+        /* LOGIN PAGE */
+        .login-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(13, 31, 26, 0.08);
+            text-align: center;
+        }
+        .login-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #E5EDE9;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .login-input:focus {
+            border-color: var(--teal);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav id="top-nav" style="display: none;">
+        <div class="nav-logo">♻ Scrap<span>Smart</span></div>
+        <div style="display:flex; align-items:center; gap:8px;">
+            <div style="font-size:0.85rem; font-weight:600; color:var(--mint);" id="nav-user-name"></div>
+            <div class="nav-pts" id="nav-pts">⭐ 0 pts</div>
+        </div>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- LOGIN PAGE -->
+    <div class="page active" id="page-login" style="flex-direction:column; justify-content:center; min-height:100vh; padding: 2rem; max-width: 480px; margin: 0 auto; padding-bottom: 5rem;">
+        <div style="text-align:center; margin-bottom: 2rem;">
+            <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:2.5rem; color:var(--dark);">♻ Scrap<span style="color:var(--green)">Smart</span></div>
+            <div style="color:var(--muted); font-size:0.95rem; margin-top:8px;">Waste to Worth</div>
+        </div>
+        <div class="login-card">
+            <h2 style="font-family:'Syne',sans-serif; margin-bottom:1.5rem; font-size:1.4rem;">Student Login</h2>
+            <input type="text" class="login-input" id="login-name" placeholder="Full Name">
+            <input type="tel" class="login-input" id="login-contact" placeholder="Contact Number (10 digits)">
+            <button class="btn btn-primary" onclick="login()">Create ID & Start 🚀</button>
+        </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div class="page pb" id="page-home">
+        <div class="hero">
+            <div class="hero-tag">🌱 Green Campus Initiative</div>
+            <h1>Turn Your <span>Waste</span> Into Rewards</h1>
+            <p>Drop your scrap, earn points, redeem at campus shops. Every kg counts!</p>
+            <div class="hero-stats">
+                <div class="hstat">
+                    <div class="hstat-num" id="stat-kg">0</div>
+                    <div class="hstat-lbl">kg collected</div>
+                </div>
+                <div class="hstat">
+                    <div class="hstat-num" id="stat-students">12</div>
+                    <div class="hstat-lbl">students active</div>
+                </div>
+                <div class="hstat">
+                    <div class="hstat-num" id="stat-saved">₹0</div>
+                    <div class="hstat-lbl">earned today</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-label">Quick Actions</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.2rem;">
+            <div class="card" style="margin:0;cursor:pointer;text-align:center;padding:1.2rem 0.8rem;"
+                onclick="showPage('submit')">
+                <div style="font-size:2rem;margin-bottom:6px;">♻️</div>
+                <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;">Submit Scrap</div>
+                <div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">Earn points now</div>
+            </div>
+            <div class="card" style="margin:0;cursor:pointer;text-align:center;padding:1.2rem 0.8rem;"
+                onclick="showPage('redeem')">
+                <div style="font-size:2rem;margin-bottom:6px;">🎁</div>
+                <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;">Redeem</div>
+                <div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">Use your points</div>
+            </div>
+        </div>
+
+        <div class="section-label">Your Activity</div>
+        <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                <div>
+                    <div style="font-size:0.8rem;color:var(--muted);">Total Points</div>
+                    <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--green)"
+                        id="home-pts">0</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-size:0.8rem;color:var(--muted);">Total Scrap</div>
+                    <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--teal)"
+                        id="home-kg">0 kg</div>
+                </div>
+            </div>
+            <div style="background:#EAF7F2;border-radius:10px;padding:10px 14px;font-size:0.82rem;color:#0F6E56;">
+                🌿 You've saved approx <strong id="co2-saved">0g</strong> of CO₂ from landfill!
+            </div>
+        </div>
+
+        <div class="section-label">Recent Activity</div>
+        <div class="card" id="home-history">
+            <div style="text-align:center;color:var(--muted);font-size:0.85rem;padding:1rem 0;">No activity yet. Submit
+                your first scrap! ♻️</div>
+        </div>
+    </div>
+
+    <!-- SUBMIT SCRAP PAGE -->
+    <div class="page pb" id="page-submit">
+        <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:1.2rem;">Submit Scrap
+            ♻️</div>
+
+        <div class="card">
+            <div class="card-title">
+                <div class="icon">1</div> Select Scrap Type
+            </div>
+            <div class="scrap-types">
+                <div class="stype selected" onclick="selectType(this,'paper',8)" data-type="paper">
+                    <div class="stype-icon">📄</div>
+                    <div class="stype-name">Paper</div>
+                    <div class="stype-rate">₹8/kg → 8 pts/kg</div>
+                </div>
+                <div class="stype" onclick="selectType(this,'plastic',12)" data-type="plastic">
+                    <div class="stype-icon">🧴</div>
+                    <div class="stype-name">Plastic</div>
+                    <div class="stype-rate">₹12/kg → 12 pts/kg</div>
+                </div>
+                <div class="stype" onclick="selectType(this,'metal',25)" data-type="metal">
+                    <div class="stype-icon">🔩</div>
+                    <div class="stype-name">Metal</div>
+                    <div class="stype-rate">₹25/kg → 25 pts/kg</div>
+                </div>
+                <div class="stype" onclick="selectType(this,'ewaste',50)" data-type="ewaste">
+                    <div class="stype-icon">💻</div>
+                    <div class="stype-name">E-Waste</div>
+                    <div class="stype-rate">₹50/kg → 50 pts/kg</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <div class="icon">2</div> Enter Weight
+            </div>
+            <div class="weight-row">
+                <label>Weight (kg)</label>
+                <input class="weight-input" type="number" id="weight-input" min="0.1" max="50" step="0.1" value="1"
+                    oninput="updatePreview()">
+            </div>
+            <div class="points-preview">
+                <div>
+                    <div class="pp-label">Points you'll earn</div>
+                    <div class="pp-sub" id="pp-detail">1 kg × 8 pts = 8 pts</div>
+                </div>
+                <div style="text-align:right;">
+                    <div class="pp-points" id="pp-pts">8</div>
+                    <div class="pp-sub">points</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="submitScrap()">✅ Submit & Earn Points</button>
+        </div>
+    </div>
+
+    <!-- SUCCESS PAGE -->
+    <div class="page pb" id="page-success">
+        <div class="card">
+            <div class="success-anim">
+                <div class="success-circle">✓</div>
+                <h2>Scrap Submitted!</h2>
+                <p>Your scrap has been recorded.<br>Points added to your account.</p>
+                <div class="earned-badge" id="earned-badge">+8 pts</div>
+                <p style="font-size:0.82rem;color:var(--muted);" id="success-detail">1 kg of Paper submitted</p>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('home')">🏠 Back to Home</button>
+            <button class="btn btn-outline" onclick="showPage('submit')">♻️ Submit More</button>
+        </div>
+    </div>
+
+    <!-- LEADERBOARD PAGE -->
+    <div class="page pb" id="page-leaderboard">
+        <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:1.2rem;">Leaderboard 🏆
+        </div>
+        <div class="card">
+            <div class="card-title">
+                <div class="icon">🥇</div> Top Collectors This Month
+            </div>
+            <div id="lb-list"></div>
+        </div>
+        <div class="card" style="background:var(--dark);color:white;">
+            <div
+                style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;color:var(--mint);margin-bottom:6px;">
+                Your Rank</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--amber);"
+                    id="my-rank">#—</div>
+                <div style="text-align:right;">
+                    <div style="font-size:0.8rem;color:var(--mint);" id="my-pts-lb">0 pts</div>
+                    <div style="font-size:0.72rem;color:rgba(168,218,204,0.6);">Keep collecting!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REDEEM PAGE -->
+    <div class="page pb" id="page-redeem">
+        <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:4px;">Redeem Rewards 🎁
+        </div>
+        <div style="font-size:0.85rem;color:var(--muted);margin-bottom:1.2rem;">Your balance: <strong
+                id="redeem-balance" style="color:var(--green);">0 pts</strong></div>
+        <div class="card">
+            <div class="reward-grid" id="reward-grid"></div>
+        </div>
+        <div class="card" style="background:#FFF8EC;border:1.5px solid #F4A300;">
+            <div style="font-size:0.82rem;color:#8B5C00;line-height:1.6;">
+                💡 <strong>How it works:</strong> Show your QR code at partner shops to redeem points. Points credited
+                instantly after scrap is weighed!
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav" id="bottom-nav" style="display: none;">
+        <div class="bnav-item active" onclick="showPage('home')" id="nav-home">
+            <div class="bnav-icon">🏠</div>
+            <div class="bnav-label">Home</div>
+        </div>
+        <div class="bnav-item" onclick="showPage('submit')" id="nav-submit">
+            <div class="bnav-icon">♻️</div>
+            <div class="bnav-label">Submit</div>
+        </div>
+        <div class="bnav-item" onclick="showPage('leaderboard')" id="nav-leaderboard">
+            <div class="bnav-icon">🏆</div>
+            <div class="bnav-label">Ranks</div>
+        </div>
+        <div class="bnav-item" onclick="showPage('redeem')" id="nav-redeem">
+            <div class="bnav-icon">🎁</div>
+            <div class="bnav-label">Redeem</div>
+        </div>
+    </div>
+
+    <script>
+        let state = {
+            points: 0,
+            totalKg: 0,
+            selectedType: 'paper',
+            selectedRate: 8,
+            history: [],
+            students: 12,
+            user: null
+        };
+
+        const rewards = [
+            { icon: '🍽️', name: 'Canteen ₹10 off', pts: 50 },
+            { icon: '📝', name: 'Free Notebook', pts: 100 },
+            { icon: '☕', name: 'Free Tea/Coffee', pts: 75 },
+            { icon: '🎫', name: 'Event Pass', pts: 200 },
+            { icon: '🛒', name: 'Stationery Pack', pts: 150 },
+            { icon: '💰', name: 'Cash ₹50', pts: 500 },
+        ];
+
+        const leaderboard = [
+            { name: 'Rahul M.', kg: 18.5, pts: 240, avatar: 'RM' },
+            { name: 'Priya S.', kg: 15.2, pts: 198, avatar: 'PS' },
+            { name: 'Amit K.', kg: 12.8, pts: 165, avatar: 'AK' },
+            { name: 'Sneha R.', kg: 10.1, pts: 132, avatar: 'SR' },
+            { name: 'Dev P.', kg: 8.4, pts: 108, avatar: 'DP' },
+        ];
+
+        function login() {
+            const name = document.getElementById('login-name').value.trim();
+            const contact = document.getElementById('login-contact').value.trim();
+            if (!name || !contact) { showToast('Please enter name and contact no.'); return; }
+            state.user = { 
+                name, 
+                contact, 
+                id: 'SS' + Math.floor(1000 + Math.random() * 9000) 
+            };
+            
+            document.getElementById('nav-user-name').textContent = name.split(' ')[0];
+            document.getElementById('top-nav').style.display = 'flex';
+            document.getElementById('bottom-nav').style.display = 'flex';
+            
+            showPage('home');
+            showToast('Welcome ' + name.split(' ')[0] + '! ID: ' + state.user.id);
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.bnav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + id).classList.add('active');
+            const navEl = document.getElementById('nav-' + id);
+            if (navEl) navEl.classList.add('active');
+            if (id === 'leaderboard') renderLeaderboard();
+            if (id === 'redeem') renderRedeem();
+            if (id === 'home') updateHome();
+            window.scrollTo(0, 0);
+        }
+
+        function selectType(el, type, rate) {
+            document.querySelectorAll('.stype').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+            state.selectedType = type;
+            state.selectedRate = rate;
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const kg = parseFloat(document.getElementById('weight-input').value) || 0;
+            const pts = Math.round(kg * state.selectedRate);
+            document.getElementById('pp-pts').textContent = pts;
+            document.getElementById('pp-detail').textContent = `${kg} kg × ${state.selectedRate} pts = ${pts} pts`;
+        }
+
+        function submitScrap() {
+            const kg = parseFloat(document.getElementById('weight-input').value) || 0;
+            if (kg <= 0) { showToast('Please enter a valid weight!'); return; }
+            const pts = Math.round(kg * state.selectedRate);
+            state.points += pts;
+            state.totalKg += kg;
+            state.history.unshift({ type: state.selectedType, kg, pts, date: new Date() });
+            document.getElementById('earned-badge').textContent = '+' + pts + ' pts';
+            document.getElementById('success-detail').textContent = `${kg} kg of ${cap(state.selectedType)} submitted`;
+            document.getElementById('nav-pts').textContent = '⭐ ' + state.points + ' pts';
+            updateHome();
+            showPage('success');
+        }
+
+        function renderLeaderboard() {
+            let myLb = [...leaderboard];
+            if (state.points > 0) {
+                myLb.push({ name: 'You ⭐', kg: state.totalKg, pts: state.points, avatar: 'ME', isMe: true });
+                myLb.sort((a, b) => b.pts - a.pts);
+            }
+            const ranks = ['gold', 'silver', 'bronze'];
+            document.getElementById('lb-list').innerHTML = myLb.slice(0, 6).map((s, i) => `
+      <div class="lb-row">
+        <div class="lb-rank ${ranks[i] || ''}">${i + 1}</div>
+        <div class="lb-avatar" style="${s.isMe ? 'background:var(--amber);color:var(--dark)' : ''}">${s.avatar}</div>
+        <div class="lb-info">
+          <div class="lb-name">${s.name}</div>
+          <div class="lb-kg">${s.kg.toFixed(1)} kg collected</div>
+        </div>
+        <div class="lb-pts">${s.pts} pts</div>
+      </div>`).join('');
+
+            const myIdx = myLb.findIndex(s => s.isMe);
+            document.getElementById('my-rank').textContent = myIdx >= 0 ? '#' + (myIdx + 1) : '#—';
+            document.getElementById('my-pts-lb').textContent = state.points + ' pts';
+        }
+
+        function renderRedeem() {
+            document.getElementById('redeem-balance').textContent = state.points + ' pts';
+            document.getElementById('reward-grid').innerHTML = rewards.map(r => {
+                const locked = state.points < r.pts;
+                return `<div class="reward-card ${locked ? 'locked' : ''}" onclick="${locked ? 'showToast(\'Need ' + r.pts + ' pts to unlock!\')' : 'redeemReward(' + r.pts + ',\'' + r.name + '\')'}">
+        <div class="reward-icon">${r.icon}</div>
+        <div class="reward-name">${r.name}</div>
+        <div class="reward-pts">${r.pts} pts</div>
+      </div>`;
+            }).join('');
+        }
+
+        function redeemReward(pts, name) {
+            if (state.points < pts) { showToast('Not enough points!'); return; }
+            state.points -= pts;
+            state.history.unshift({ type: 'redeem', name, pts: -pts, date: new Date() });
+            document.getElementById('nav-pts').textContent = '⭐ ' + state.points + ' pts';
+            showToast('🎉 Redeemed: ' + name + '!');
+            renderRedeem();
+            updateHome();
+        }
+
+        function updateHome() {
+            document.getElementById('home-pts').textContent = state.points;
+            document.getElementById('home-kg').textContent = state.totalKg.toFixed(1) + ' kg';
+            document.getElementById('stat-kg').textContent = state.totalKg.toFixed(1);
+            document.getElementById('stat-saved').textContent = '₹' + Math.round(state.totalKg * 10);
+            document.getElementById('co2-saved').textContent = Math.round(state.totalKg * 1.5 * 1000) + 'g';
+            const hist = document.getElementById('home-history');
+            if (state.history.length === 0) {
+                hist.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:0.85rem;padding:1rem 0;">No activity yet. Submit your first scrap! ♻️</div>';
+                return;
+            }
+            hist.innerHTML = state.history.slice(0, 5).map(h => `
+      <div class="hist-row">
+        <div class="hist-left">
+          <div class="hist-dot ${h.pts < 0 ? 'red' : ''}"></div>
+          <div class="hist-info">
+            <div class="hist-title">${h.type === 'redeem' ? '🎁 ' + h.name : '♻️ ' + cap(h.type) + ' (' + h.kg + ' kg)'}</div>
+            <div class="hist-date">${formatDate(h.date)}</div>
+          </div>
+        </div>
+        <div class="hist-pts ${h.pts < 0 ? 'spend' : 'earn'}">${h.pts > 0 ? '+' : ''}${h.pts}</div>
+      </div>`).join('');
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 2200);
+        }
+
+        function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+        function formatDate(d) {
+            const now = new Date();
+            const diff = Math.floor((now - d) / 60000);
+            if (diff < 1) return 'Just now';
+            if (diff < 60) return diff + ' min ago';
+            return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+        }
+
+        updatePreview();
+        updateHome();
+    </script>
+</body>
+
+</html>
