@@ -671,6 +671,7 @@
             box-shadow: 0 4px 20px rgba(13, 31, 26, 0.08);
             text-align: center;
         }
+
         .login-input {
             width: 100%;
             padding: 12px 14px;
@@ -682,6 +683,7 @@
             outline: none;
             transition: border-color 0.2s;
         }
+
         .login-input:focus {
             border-color: var(--teal);
         }
@@ -701,9 +703,11 @@
     <div class="toast" id="toast"></div>
 
     <!-- LOGIN PAGE -->
-    <div class="page active" id="page-login" style="flex-direction:column; justify-content:center; min-height:100vh; padding: 2rem; max-width: 480px; margin: 0 auto; padding-bottom: 5rem;">
+    <div class="page active" id="page-login"
+        style="flex-direction:column; justify-content:center; min-height:100vh; padding: 2rem; max-width: 480px; margin: 0 auto; padding-bottom: 5rem;">
         <div style="text-align:center; margin-bottom: 2rem;">
-            <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:2.5rem; color:var(--dark);">♻ Scrap<span style="color:var(--green)">Smart</span></div>
+            <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:2.5rem; color:var(--dark);">♻
+                Scrap<span style="color:var(--green)">Smart</span></div>
             <div style="color:var(--muted); font-size:0.95rem; margin-top:8px;">Waste to Worth</div>
         </div>
         <div class="login-card">
@@ -943,16 +947,16 @@
             const name = document.getElementById('login-name').value.trim();
             const contact = document.getElementById('login-contact').value.trim();
             if (!name || !contact) { showToast('Please enter name and contact no.'); return; }
-            state.user = { 
-                name, 
-                contact, 
-                id: 'SS' + Math.floor(1000 + Math.random() * 9000) 
+            state.user = {
+                name,
+                contact,
+                id: 'SS' + Math.floor(1000 + Math.random() * 9000)
             };
-            
+
             document.getElementById('nav-user-name').textContent = name.split(' ')[0];
             document.getElementById('top-nav').style.display = 'flex';
             document.getElementById('bottom-nav').style.display = 'flex';
-            
+
             showPage('home');
             showToast('Welcome ' + name.split(' ')[0] + '! ID: ' + state.user.id);
         }
