@@ -58,6 +58,17 @@
             gap: 8px;
         }
 
+        /* Ensure nav items wrap on very narrow screens */
+        nav {
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .bottom-nav {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
         .nav-logo span {
             color: var(--green);
         }
@@ -151,7 +162,7 @@
 
         .hero-stats {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
             gap: 8px;
         }
 
@@ -575,6 +586,13 @@
             margin: 0 auto;
             left: 50%;
             transform: translateX(-50%);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .bnav-item {
+            flex: 1 1 45%;
+            max-width: 120px;
         }
 
         .bnav-item {
@@ -686,6 +704,68 @@
 
         .login-input:focus {
             border-color: var(--teal);
+        }
+
+        .bottom-nav {
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: var(--dark);
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 4px 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            nav {
+                padding: 0 1rem;
+                height: 48px;
+            }
+
+            .nav-logo {
+                font-size: 1rem;
+            }
+
+            .nav-pts {
+                padding: 2px 8px;
+                font-size: 0.7rem;
+            }
+
+            .hero {
+                padding: 1.5rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero p {
+                font-size: 0.8rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+            }
+
+            .card {
+                padding: 0.9rem 1rem;
+            }
+
+            .bnav-item .bnav-icon {
+                font-size: 1.2rem;
+            }
+
+            .bnav-label {
+                font-size: 0.6rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .page {
+                max-width: 800px;
+            }
         }
     </style>
 </head>
